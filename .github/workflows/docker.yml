@@ -48,7 +48,6 @@ jobs:
         with:
           builder: ${{ steps.setup-buildx.outputs.name }}
           context: .
-          push: true
           platforms: ${{ matrix.platform }}
           provenance: false
           tags: ${{ steps.meta.outputs.tags }}
