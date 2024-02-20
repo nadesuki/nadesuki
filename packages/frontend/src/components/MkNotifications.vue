@@ -67,6 +67,10 @@ function onNotification(notification) {
 	}
 }
 
+function onNotificationDeleted(notificationId) {
+	pagingComponent.value?.removeItem(notificationId);
+}
+
 function reload() {
 	return new Promise<void>((res) => {
 		pagingComponent.value?.reload().then(() => {
@@ -80,12 +84,14 @@ let connection;
 onMounted(() => {
 	connection = useStream().useChannel('main');
 	connection.on('notification', onNotification);
+	connection.on('notificationDeleted', onNotificationDeleted);
 });
 
 onActivated(() => {
 	pagingComponent.value?.reload();
 	connection = useStream().useChannel('main');
 	connection.on('notification', onNotification);
+	connection.on('notificationDeleted', onNotificationDeleted);
 });
 
 onUnmounted(() => {
