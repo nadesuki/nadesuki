@@ -2759,6 +2759,10 @@ export interface Locale extends ILocale {
      */
     "hardWordMute": string;
     /**
+     * ミュートされたワードを表示
+     */
+    "showMutedWord": string;
+    /**
      * 正規表現エラー
      */
     "regexpError": string;
@@ -2774,6 +2778,10 @@ export interface Locale extends ILocale {
      * {name}が何かを言いました
      */
     "userSaysSomething": ParameterizedString<"name">;
+    /**
+     * {name}が「{word}」について何かを言いました
+     */
+    "userSaysSomethingAbout": ParameterizedString<"name" | "word">;
     /**
      * アクティブにする
      */
@@ -5563,6 +5571,10 @@ export interface Locale extends ILocale {
                  */
                 "public": string;
                 /**
+                 * 全てのユーザーに公開されますが、LTLには掲載されません
+                 */
+                "public_non_ltl": string;
+                /**
                  * ホームタイムラインのみに公開。フォロワー・プロフィールを見に来た人・リノートから、他のユーザーも見ることができます。
                  */
                 "home": string;
@@ -6931,6 +6943,10 @@ export interface Locale extends ILocale {
              * リストのインポートを許可
              */
             "canImportUserLists": string;
+            /**
+             * パブリック投稿（非LTL）の許可
+             */
+            "canPublicNonLtlNote": string;
         };
         "_condition": {
             /**
@@ -8692,6 +8708,14 @@ export interface Locale extends ILocale {
          * 全てのユーザーに公開
          */
         "publicDescription": string;
+        /**
+         * パブリック（非LTL）
+         */
+        "public_non_ltl": string;
+        /**
+         * 全てのユーザーに公開（ローカルタイムラインには表示されません）
+         */
+        "public_non_ltlDescription": string;
         /**
          * ホーム
          */
@@ -10486,6 +10510,16 @@ export interface Locale extends ILocale {
          * 生成されたコードをウェブサイトに貼り付けてご利用ください。
          */
         "codeGeneratedDescription": string;
+    };
+    "_reactionChecksMuting": {
+        /**
+         * リアクションでミュートを考慮する
+         */
+        "title": string;
+        /**
+         * リアクションがミュートを考慮しますが、キャッシュが効かず通信量が増えることがあります。
+         */
+        "caption": string;
     };
 }
 declare const locales: {
