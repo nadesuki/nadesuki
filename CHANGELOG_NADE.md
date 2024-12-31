@@ -8,6 +8,9 @@
 
 ### Server
 -->
+## nade 1.6.7
+### Server
+リアクションミュートにおけるクエリを一部修正 (thanks of @lqvp)
 
 ## nade 1.6.6
 ### i18n
