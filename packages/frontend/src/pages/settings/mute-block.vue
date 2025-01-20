@@ -26,7 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</div>
 	</MkFolder>
 
-	<MkFolder>
+	<MkFolder v-if="instance.federation !== 'none'">
 		<template #icon><i class="ti ti-planet-off"></i></template>
 		<template #label>{{ i18n.ts.instanceMute }}</template>
 
@@ -142,13 +142,13 @@ import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
 import MkUserCardMini from '@/components/MkUserCardMini.vue';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/scripts/misskey-api.js';
-import { infoImageUrl } from '@/instance.js';
+import { instance, infoImageUrl } from '@/instance.js';
 import { signinRequired } from '@/account.js';
+import MkInfo from '@/components/MkInfo.vue';
 import MkFolder from '@/components/MkFolder.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import { defaultStore } from '@/store';
-import { unisonReload } from '@/scripts/unison-reload.js';
+import { reloadAsk } from '@/scripts/reload-ask.js';
 
 const $i = signinRequired();
 
@@ -173,20 +173,10 @@ const expandedBlockItems = ref([]);
 
 const showSoftWordMutedWord = computed(defaultStore.makeGetterSetter('showSoftWordMutedWord'));
 
-async function reloadAsk() {
-	const { canceled } = await os.confirm({
-		type: 'info',
-		text: i18n.ts.reloadToApplySetting,
-	});
-	if (canceled) return;
-
-	unisonReload();
-}
-
 watch([
 	showSoftWordMutedWord,
 ], async () => {
-	await reloadAsk();
+	await reloadAsk({ reason: i18n.ts.reloadToApplySetting, unison: true });
 });
 
 async function unrenoteMute(user, ev) {
@@ -247,11 +237,11 @@ async function toggleBlockItem(item) {
 }
 
 async function saveMutedWords(mutedWords: (string | string[])[]) {
-	await misskeyApi('i/update', { mutedWords });
+	await os.apiWithDialog('i/update', { mutedWords });
 }
 
 async function saveHardMutedWords(hardMutedWords: (string | string[])[]) {
-	await misskeyApi('i/update', { hardMutedWords });
+	await os.apiWithDialog('i/update', { hardMutedWords });
 }
 
 const headerActions = computed(() => []);
